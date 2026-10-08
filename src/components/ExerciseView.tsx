@@ -151,11 +151,11 @@ export const ExerciseView: React.FC<ExerciseViewProps> = ({
         />
       </div>
 
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-sky-100 shadow-md text-center space-y-6">
+      <div className="bg-white rounded-3xl p-4 sm:p-6 border-2 border-sky-100 shadow-md text-center space-y-4">
         <div className="flex justify-end">
           <button
             onClick={handleSpeakQuestion}
-            className="p-2 text-sky-600 hover:text-sky-700 hover:bg-sky-50 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
+            className="p-1.5 text-sky-600 hover:text-sky-700 hover:bg-sky-50 rounded-xl transition-colors flex items-center gap-1.5 text-xs font-bold cursor-pointer"
             title="Ouvir a pergunta"
           >
             <Volume2 className="w-4 h-4" />
@@ -163,15 +163,34 @@ export const ExerciseView: React.FC<ExerciseViewProps> = ({
           </button>
         </div>
 
-        <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight leading-snug">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight leading-snug">
             {currentQ.pergunta}
           </h2>
         </div>
 
-        <VisualExplainer visualData={currentQ.visualData} />
+        <div className="scale-90 origin-center my-[-10px]">
+          <VisualExplainer visualData={currentQ.visualData} />
+        </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-2">
+        {/* Botão de avançar e Parabéns logo acima das opções quando já acertou */}
+        {isAnswered && isCorrect && (
+          <div className="space-y-2 py-1 animate-soft-pulse">
+            <div className="w-full p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-center gap-2 font-bold text-base sm:text-lg">
+              <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
+              <span>Parabéns! Você acertou! 🎉</span>
+            </div>
+            <button
+              onClick={handleNextQuestion}
+              className="w-full max-w-md mx-auto py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white text-base sm:text-lg font-extrabold rounded-2xl shadow-lg transition-transform transform active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>{currentIndex + 1 === questions.length ? 'Ver Resultado Final' : 'Próxima Questão'}</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 pt-1">
           {currentQ.alternativas.map((option, idx) => {
             const isSelected = selectedAnswer === option;
             const isTargetCorrect = String(option) === String(currentQ.respostaCorreta);
@@ -195,7 +214,7 @@ export const ExerciseView: React.FC<ExerciseViewProps> = ({
                 key={idx}
                 disabled={isAnswered && isCorrect}
                 onClick={() => handleSelectOption(option)}
-                className={`py-4 px-2 sm:py-5 sm:px-4 rounded-2xl text-xl sm:text-3xl font-extrabold transition-all transform active:scale-95 cursor-pointer shadow-xs truncate w-full ${btnStyle}`}
+                className={`py-3 px-2 sm:py-4 sm:px-4 rounded-2xl text-xl sm:text-2xl font-extrabold transition-all transform active:scale-95 cursor-pointer shadow-xs truncate w-full ${btnStyle}`}
                 title={String(option)}
               >
                 {option}
@@ -204,65 +223,49 @@ export const ExerciseView: React.FC<ExerciseViewProps> = ({
           })}
         </div>
 
-        {isAnswered && (
-          <div className="pt-4 space-y-4">
-            {isCorrect ? (
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-center gap-2 font-bold text-base sm:text-lg animate-soft-pulse">
-                <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
-                <span>Parabéns! Você acertou! 🎉</span>
+        {/* Popup Modal para Erro / Dica */}
+        {isAnswered && !isCorrect && (
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+            <div className="bg-white rounded-3xl p-6 max-w-sm w-full border-2 border-amber-200 shadow-2xl text-center space-y-4 animate-soft-pulse">
+              <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-3xl">
+                💪
               </div>
-            ) : (
-              <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 space-y-2">
-                <div className="flex items-center justify-center gap-2 font-bold text-base">
-                  <span>Quase! Vamos tentar novamente. 💪</span>
-                </div>
-                {!showExplanation ? (
-                  <button
-                    onClick={() => {
-                      playClickSound();
-                      setShowExplanation(true);
-                    }}
-                    className="text-xs text-amber-900 underline font-semibold hover:text-amber-700 cursor-pointer"
-                  >
-                    Ver dica de como resolver
-                  </button>
-                ) : (
-                  <p className="text-xs text-slate-700 font-medium bg-white p-3 rounded-xl border border-amber-200">
-                    {currentQ.explicacao}
-                  </p>
-                )}
-              </div>
-            )}
+              <h3 className="text-xl font-black text-slate-800">Quase lá! Vamos tentar novamente?</h3>
 
-            <div className="pt-2">
-              {isCorrect ? (
+              {!showExplanation ? (
                 <button
-                  onClick={handleNextQuestion}
-                  className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold rounded-2xl shadow-md transition-transform transform active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={() => {
+                    playClickSound();
+                    setShowExplanation(true);
+                  }}
+                  className="text-xs text-amber-700 underline font-semibold hover:text-amber-900 cursor-pointer block mx-auto"
                 >
-                  <span>{currentIndex + 1 === questions.length ? 'Ver Resultado' : 'Próxima Questão'}</span>
-                  <ArrowRight className="w-5 h-5" />
+                  Ver dica de como resolver
                 </button>
               ) : (
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setIsAnswered(false);
-                      setSelectedAnswer(null);
-                    }}
-                    className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-xl shadow-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                    <span>Tentar Esta Novamente</span>
-                  </button>
-                  <button
-                    onClick={handleNextQuestion}
-                    className="py-3 px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-bold rounded-xl transition-colors cursor-pointer"
-                  >
-                    Pular
-                  </button>
-                </div>
+                <p className="text-xs text-slate-700 font-medium bg-amber-50 p-3 rounded-xl border border-amber-200 text-left">
+                  {currentQ.explicacao}
+                </p>
               )}
+
+              <div className="flex flex-col gap-2 pt-2">
+                <button
+                  onClick={() => {
+                    setIsAnswered(false);
+                    setSelectedAnswer(null);
+                  }}
+                  className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-xl shadow-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Tentar Esta Novamente</span>
+                </button>
+                <button
+                  onClick={handleNextQuestion}
+                  className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                >
+                  Pular Questão
+                </button>
+              </div>
             </div>
           </div>
         )}
