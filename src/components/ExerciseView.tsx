@@ -195,7 +195,8 @@ export const ExerciseView: React.FC<ExerciseViewProps> = ({
                 key={idx}
                 disabled={isAnswered && isCorrect}
                 onClick={() => handleSelectOption(option)}
-                className={`py-5 px-4 rounded-2xl text-2xl sm:text-3xl font-extrabold transition-all transform active:scale-95 cursor-pointer shadow-xs ${btnStyle}`}
+                className={`py-4 px-2 sm:py-5 sm:px-4 rounded-2xl text-xl sm:text-3xl font-extrabold transition-all transform active:scale-95 cursor-pointer shadow-xs truncate w-full ${btnStyle}`}
+                title={String(option)}
               >
                 {option}
               </button>
