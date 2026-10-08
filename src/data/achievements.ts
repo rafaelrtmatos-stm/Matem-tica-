@@ -1,0 +1,88 @@
+import { Achievement } from '../types';
+
+export const ALL_ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'first_win',
+    title: 'Primeiros Passos',
+    description: 'Conclua a sua primeira rodada de exercícios com sucesso!',
+    icon: '🌱',
+    category: 'milestone',
+  },
+  {
+    id: 'streak_5',
+    title: 'Super Foco',
+    description: 'Acerte 5 questões consecutivas sem errar!',
+    icon: '🔥',
+    category: 'streak',
+  },
+  {
+    id: 'streak_10',
+    title: 'Sequência de 10!',
+    description: 'Incrível! 10 acertos seguidos com raciocínio brilhante!',
+    icon: '⚡',
+    category: 'streak',
+  },
+  {
+    id: 'streak_20',
+    title: 'Imbatível!',
+    description: '20 acertos consecutivos! Você é um gênio da matemática!',
+    icon: '👑',
+    category: 'streak',
+  },
+  {
+    id: 'questions_25',
+    title: 'Mente Ativa',
+    description: 'Respondeu 25 questões no total.',
+    icon: '🎯',
+    category: 'questions',
+  },
+  {
+    id: 'questions_50',
+    title: 'Você já resolveu 50 questões!',
+    description: 'Dedicação de campeão: 50 desafios completados!',
+    icon: '🏆',
+    category: 'questions',
+  },
+  {
+    id: 'questions_100',
+    title: 'Desafio dos 100!',
+    description: 'Mais de 100 questões resolvidas com entusiasmo!',
+    icon: '💎',
+    category: 'questions',
+  },
+  {
+    id: 'master_numbers',
+    title: 'Explorador dos Números',
+    description: 'Dominou o reconhecimento de números até 100.',
+    icon: '🔢',
+    category: 'mastery',
+  },
+  {
+    id: 'master_sum',
+    title: 'Mestre da Adição',
+    description: 'Dominou operações de soma de unidades e dezenas.',
+    icon: '➕',
+    category: 'mastery',
+  },
+  {
+    id: 'master_sub',
+    title: 'Craque da Subtração',
+    description: 'Dominou operações de subtração.',
+    icon: '➖',
+    category: 'mastery',
+  },
+  {
+    id: 'master_mult_all',
+    title: 'Rei da Tabuada',
+    description: 'Dominou todas as tabuadas de 1 a 10.',
+    icon: '✨',
+    category: 'mastery',
+  },
+  {
+    id: 'master_problems',
+    title: 'Detetive Matemático',
+    description: 'Resolveu os problemas matemáticos contextualizados do Nível 2.',
+    icon: '🕵️',
+    category: 'mastery',
+  },
+];

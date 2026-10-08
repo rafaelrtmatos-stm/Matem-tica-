@@ -1,0 +1,6 @@
+{
+  "name": "Aprender Calculando — Matemática Infantil",
+  "description": "Aplicativo educativo de matemática para crianças com aprendizado progressivo, visual e adaptativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
